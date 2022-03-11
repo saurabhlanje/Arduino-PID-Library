@@ -1,24 +1,17 @@
-#ifndef PID_v1_h
-#define PID_v1_h
+#ifndef PID_h
+#define PID_h
 #define LIBRARY_VERSION	1.2.1
 
 class PID
 {
-
-
   public:
-
   //Constants used in some of the functions below
   #define AUTOMATIC	1
   #define MANUAL	0
-  #define DIRECT  0
-  #define REVERSE  1
-  #define P_ON_M 0
-  #define P_ON_E 1
-
+  #define KILL 		2
   //commonly used functions **************************************************************************
     PID(double*, double*, double*,        // * constructor.  links the PID to the Input, Output, and 
-        double, double, double, int, int);//   Setpoint.  Initial tuning parameters are also set here.
+        double, double, double);//   Setpoint.  Initial tuning parameters are also set here.
                                           //   (overload for specifying proportional mode)
 
     PID(double*, double*, double*,        // * constructor.  links the PID to the Input, Output, and 
@@ -44,10 +37,6 @@ class PID
     void SetTunings(double, double,       // * overload for specifying proportional mode
                     double, int);         	  
 
-	void SetControllerDirection(int);	  // * Sets the Direction, or "Action" of the controller. DIRECT
-										  //   means the output will increase when error is positive. REVERSE
-										  //   means the opposite.  it's very unlikely that this will be needed
-										  //   once it is set in the constructor.
     void SetSampleTime(int);              // * sets the frequency, in Milliseconds, with which 
                                           //   the PID calculation is performed.  default is 100
 										  
@@ -58,7 +47,6 @@ class PID
 	double GetKi();						  //  they were created mainly for the pid front-end,
 	double GetKd();						  // where it's important to know what is actually 
 	int GetMode();						  //  inside the PID.
-	int GetDirection();					  //
 
   private:
 	void Initialize();
@@ -84,7 +72,6 @@ class PID
 
 	unsigned long SampleTime;
 	double outMin, outMax;
-	bool inAuto, pOnE;
 };
 #endif
 
